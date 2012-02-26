@@ -117,3 +117,8 @@ nnoremap Y y$
 let g:syntastic_enable_signs=1
 
 let g:Powerline_symbols = 'fancy'
+
+autocmd BufWritePost *
+      \ if exists('b:git_dir') && executable(b:git_dir.'/hooks/ctags') |
+      \   call system('"'.b:git_dir.'/hooks/ctags" &') |
+      \ endif
