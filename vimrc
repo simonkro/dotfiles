@@ -122,3 +122,5 @@ autocmd BufWritePost *
       \ if exists('b:git_dir') && executable(b:git_dir.'/hooks/ctags') |
       \   call system('"'.b:git_dir.'/hooks/ctags" &') |
       \ endif
+
+let g:ruby_debugger_default_script = 'script/rails server'
