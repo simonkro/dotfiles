@@ -134,9 +134,12 @@ hi StatusLineNC ctermfg=Black  ctermbg=0 cterm=NONE
 hi Directory guifg=#FFFFFF ctermfg=white
 hi NERDTreeDirSlash guifg=#FFFFFF ctermfg=white
 
-highlight LineNr cterm=NONE ctermfg=DarkGray ctermbg=Black
+" colors for line numbers and autocomplete
+hi LineNr cterm=NONE ctermfg=DarkGray ctermbg=Black
+hi Pmenu cterm=NONE ctermbg=black ctermfg=DarkGray
 
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+nmap g* :
 
 " command-t settings
 let g:CommandTMaxHeight=10
@@ -156,6 +159,8 @@ let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" Limit number of matches
+let g:neocomplcache_max_list = 10
 
 " <TAB>: completion.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -173,3 +178,21 @@ if !exists('g:neocomplcache_omni_patterns')
   let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
+" map spacebar to clear search highlight
+nnoremap <space> :noh<cr>
+
+" buffer resizing mappings (shift + arrow key)
+nnoremap <S-Up> <c-w>+
+nnoremap <S-Down> <c-w>-
+nnoremap <S-Left> <c-w><
+nnoremap <S-Right> <c-w>>
+
+" ack aka global search
+nmap g/ :Ack!<space>
+nmap g* :Ack! -w <C-R><C-W><CR>
+nmap ga :AckAdd!<space>
+nmap gn :cnext<CR>
+nmap gp :cprev<CR>
+nmap gq :ccl<CR>
+nmap gl :cwindow<CR>
