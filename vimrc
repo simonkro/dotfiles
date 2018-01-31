@@ -1,5 +1,7 @@
 call pathogen#infect()
 
+:set timeout timeoutlen=1000 ttimeoutlen=10
+
 set encoding=utf-8
 set laststatus=2
 
@@ -65,6 +67,7 @@ set guifont=Monaco\ 8
 
 let mapleader = ","
 nmap <leader>p :NERDTreeToggle<CR>
+nmap <leader>r :!ruby %<CR>
 
 " shortcuts for saving with ctrl-s 
 nmap <c-s> :w<cr> 
@@ -136,7 +139,7 @@ hi NERDTreeDirSlash guifg=#FFFFFF ctermfg=white
 
 " colors for line numbers and autocomplete
 hi LineNr cterm=NONE ctermfg=DarkGray ctermbg=Black
-hi Pmenu cterm=NONE ctermbg=black ctermfg=DarkGray
+hi Pmenu cterm=NONE ctermbg=238 ctermfg=DarkGray
 
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 nmap g* :
@@ -149,18 +152,18 @@ nnoremap <C-F> :CommandT<cr>
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
+" let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
+" let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
+" let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
+" let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" let g:neocomplcache_min_syntax_length = 3
+" let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 " Limit number of matches
-let g:neocomplcache_max_list = 10
+" let g:neocomplcache_max_list = 10
 
 " <TAB>: completion.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -172,12 +175,14 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+" autocmd FileType ruby let g:rubycomplete_buffer_loading=1
+" autocmd FileType ruby let g:rubycomplete_classes_in_global=1
 
 " Enable heavy omni completion.
 if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
+"  let g:neocomplcache_omni_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 " map spacebar to clear search highlight
 nnoremap <space> :noh<cr>
@@ -196,3 +201,11 @@ nmap gn :cnext<CR>
 nmap gp :cprev<CR>
 nmap gq :ccl<CR>
 nmap gl :cwindow<CR>
+
+autocmd BufWritePre  *.{rb,rake,properties,conf,markdown}  call StripTrailingWhite()
+
+function! StripTrailingWhite()
+  let l:winview = winsaveview()
+  silent! %s/\s\+$//
+  call winrestview(l:winview)
+endfunction
